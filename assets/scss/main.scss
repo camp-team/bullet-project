@@ -1,3 +1,38 @@
+$colors : (
+  'black': rgba(0, 0, 0, 0.6),
+  'blue': rgba(187, 222, 251, 0.6),
+  'purple': rgba(225, 190, 231, 0.6),
+  'green': rgba(200, 230, 201, 0.6),
+  'red': rgba(255, 205, 210, 0.6),
+  'yellow': rgba(255, 249, 196, 0.6),
+  'white': #fff
+);
+
 .v-main {
   background-color: #f5f6f7;
+}
+
+.v-btn.btn--create {
+  position: fixed;
+  right: 16px;
+  bottom: 16px;
+  z-index: 2;
+}
+
+.grid {
+  .v-card {
+    @each $color-label, $color-value in $colors {
+      &.is-#{$color-label} {
+        background-color: $color-value;
+      }
+
+      @if #{$color-label} == 'black' {
+        &.is-#{$color-label} {
+          .v-card__text {
+            color: #fff;
+          }
+        }
+      }
+    }
+  }
 }

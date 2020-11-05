@@ -1,17 +1,25 @@
 <template>
-  <v-card outlined>
+  <v-card :class="post.color | toClass">
     <v-card-text>
-      <p>
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quis placeat
-        doloremque non odit voluptatibus cumque, tempore et illum eius
-        exercitationem vel nesciunt rem, ratione officia sequi laudantium nam
-        distinctio iure.
-      </p>
-      <p class="text-right">name</p>
+      <p>{{ post.content }}</p>
+      <p class="text-right">{{ post.name }}</p>
     </v-card-text>
   </v-card>
 </template>
 
 <script>
-export default {}
+export default {
+  filters: {
+    toClass(color) {
+      if (!color) return ''
+      return 'is-' + color.toLowerCase()
+    },
+  },
+  props: {
+    post: {
+      type: Object,
+      required: true,
+    },
+  },
+}
 </script>
