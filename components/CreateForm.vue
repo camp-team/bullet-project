@@ -63,7 +63,11 @@ export default {
   },
   methods: {
     submit() {
-      this.$emit('add', this.content, this.name, this.color)
+      this.$store.dispatch('post/addPost', {
+        content: this.content,
+        name: this.name,
+        color: this.color,
+      })
       this.content = ''
       this.name = ''
       this.color = 'BLACK'
