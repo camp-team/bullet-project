@@ -58,7 +58,7 @@ export default {
       rules: [(v) => v.length <= 140 || 'Max 140 characters'],
       name: '',
       color: 'BLACK',
-      colors: ['BLACK', 'BLUE', 'PURPLE', 'GREEN', 'RED', 'YELLOW', 'WHITE'],
+      colors: this.$store.state.post.colors,
     }
   },
   methods: {
