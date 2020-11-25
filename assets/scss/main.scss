@@ -17,6 +17,13 @@ header.header {
     -webkit-text-fill-color: transparent;
     color: #42a5f5;
   }
+
+  .header__icon {
+    img {
+      max-width: 40px;
+      border-radius: 50%;
+    }
+  }
 }
 
 .v-main {
@@ -45,5 +52,15 @@ header.header {
         }
       }
     }
+  }
+}
+
+.list {
+  &__icon {
+    margin: 10px 6px 10px 0 !important;
+  }
+
+  &__title {
+    line-height: 1.5;
   }
 }
