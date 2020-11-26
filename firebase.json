@@ -3,8 +3,11 @@
     "rules": "firestore.rules",
     "indexes": "firestore.indexes.json"
   },
+  "functions": {
+    "source": "functions"
+  },
   "hosting": {
-    "public": "dist",
+    "public": ".nuxt/dist",
     "ignore": [
       "firebase.json",
       "**/.*",
@@ -13,7 +16,7 @@
     "rewrites": [
       {
         "source": "**",
-        "destination": "/index.html"
+        "function": "ssr"
       }
     ]
   },
