@@ -4,7 +4,8 @@
     <v-spacer />
     <v-btn
       v-if="!isAuthenticated"
-      color="primary"
+      class="white--text"
+      color="#ff4081"
       depressed
       @click="googleLogin()"
       >Sign in</v-btn
@@ -34,14 +35,27 @@
         </v-list-item>
       </v-list>
     </v-menu>
+    <CreateForm :authenticated="isAuthenticated" />
+    <v-snackbar v-model="snackbar" :timeout="timeout" color="#ff4081" outlined>
+      {{ authMessage }}
+    </v-snackbar>
   </v-app-bar>
 </template>
 
 <script>
+import firebase from '~/plugins/firebase'
+import CreateForm from '~/components/CreateForm'
+
 export default {
+  components: {
+    CreateForm,
+  },
   data() {
     return {
       title: '8',
+      snackbar: false,
+      authMessage: '',
+      timeout: 2000,
     }
   },
   computed: {
@@ -54,10 +68,52 @@ export default {
   },
   methods: {
     googleLogin() {
-      this.$store.dispatch('auth/googleLogin')
+      firebase
+        .auth()
+        .signInWithPopup(new firebase.auth.GoogleAuthProvider())
+        .then((result) => this.getAccountData(result))
+        .then((userObject) => this.setUserData(userObject))
+        .catch((error) => this.onRejected(error))
+    },
+    getAccountData(result) {
+      return new Promise((resolve, reject) => {
+        const userObject = {}
+        const user = result.user
+        userObject.uid = user.uid
+        userObject.isNewUser = result.additionalUserInfo.isNewUser
+        if (userObject.isNewUser) {
+          userObject.displayName = user.displayName
+          userObject.photoURL = user.photoURL
+        }
+        resolve(userObject)
+      })
+    },
+    setUserData(userObject) {
+      return new Promise((resolve, reject) => {
+        const user = firebase
+          .firestore()
+          .collection('users')
+          .doc(userObject.uid)
+        user.set(userObject, { merge: true }).then((result) => {
+          this.authMessage = 'ログインしました！'
+          this.snackbar = true
+          resolve(userObject)
+        })
+      })
+    },
+    onRejected() {
+      this.authMessage = 'ログインできませんでした。'
+      this.snackbar = true
     },
     logout() {
-      this.$store.dispatch('auth/logout')
+      firebase
+        .auth()
+        .signOut()
+        .then(() => {
+          this.authMessage = 'ログアウトしました。'
+          this.snackbar = true
+          this.$store.dispatch('auth/logout')
+        })
     },
   },
 }
