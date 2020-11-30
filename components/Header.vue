@@ -35,9 +35,9 @@
         </v-list-item>
       </v-list>
     </v-menu>
-    <CreateForm :authenticated="isAuthenticated" />
+    <CreateForm :authenticated="isAuthenticated" @set-message="formMessage" />
     <v-snackbar v-model="snackbar" :timeout="timeout" color="#ff4081" outlined>
-      {{ authMessage }}
+      {{ message }}
     </v-snackbar>
   </v-app-bar>
 </template>
@@ -54,8 +54,8 @@ export default {
     return {
       title: '8',
       snackbar: false,
-      authMessage: '',
-      timeout: 2000,
+      message: '',
+      timeout: 5000,
     }
   },
   computed: {
@@ -95,14 +95,14 @@ export default {
           .collection('users')
           .doc(userObject.uid)
         user.set(userObject, { merge: true }).then((result) => {
-          this.authMessage = 'ログインしました！'
+          this.message = 'ログインしました！'
           this.snackbar = true
           resolve(userObject)
         })
       })
     },
     onRejected() {
-      this.authMessage = 'ログインできませんでした。'
+      this.message = 'ログインできませんでした。'
       this.snackbar = true
     },
     logout() {
@@ -110,10 +110,14 @@ export default {
         .auth()
         .signOut()
         .then(() => {
-          this.authMessage = 'ログアウトしました。'
+          this.message = 'ログアウトしました。'
           this.snackbar = true
           this.$store.dispatch('auth/logout')
         })
+    },
+    formMessage(arg) {
+      this.message = arg
+      this.snackbar = true
     },
   },
 }

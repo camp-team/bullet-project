@@ -98,10 +98,16 @@ export default {
           .firestore()
           .collection('posts')
           .doc(postObject.postId)
-        newPost.set(postObject, { merge: true }).then((result) => {
-          this.$router.push({ path: '/' })
-          resolve(postObject)
-        })
+        newPost
+          .set(postObject, { merge: true })
+          .then((result) => {
+            this.$emit('set-message', '投稿されました！')
+            this.$router.push({ path: '/' })
+            resolve(postObject)
+          })
+          .catch((result) => {
+            this.$emit('set-message', '投稿できませんでした。')
+          })
       })
     },
     createId() {
