@@ -21,19 +21,23 @@
               <v-col cols="12">
                 <v-textarea
                   v-model="content"
-                  outlined
                   counter
+                  :error-messages="contentErrors"
                   label="content"
-                  :rules="rules"
                   required
+                  @input="$v.content.$touch()"
+                  @blur="$v.content.$touch()"
                 ></v-textarea>
               </v-col>
               <v-col cols="12">
                 <v-select
                   v-model="color"
-                  outlined
                   :items="colors"
+                  :error-messages="selectErrors"
                   label="color"
+                  required
+                  @change="$v.color.$touch()"
+                  @blur="$v.color.$touch()"
                 ></v-select>
               </v-col>
             </v-row>
@@ -52,9 +56,16 @@
 </template>
 
 <script>
+import { validationMixin } from 'vuelidate'
+import { required, maxLength } from 'vuelidate/lib/validators'
 import firebase from '~/plugins/firebase'
 
 export default {
+  mixins: [validationMixin],
+  validations: {
+    content: { required, maxLength: maxLength(140) },
+    color: { required },
+  },
   props: {
     authenticated: {
       type: Boolean,
@@ -65,7 +76,6 @@ export default {
     return {
       dialog: false,
       content: '',
-      rules: [(v) => v.length <= 140 || 'Max 140 characters'],
       color: 'BLACK',
       colors: this.$store.state.post.colors,
     }
@@ -74,17 +84,33 @@ export default {
     user() {
       return this.$store.getters['auth/user']
     },
+    contentErrors() {
+      const errors = []
+      if (!this.$v.content.$dirty) return errors
+      !this.$v.content.required && errors.push('必須項目です')
+      !this.$v.content.maxLength && errors.push('140文字以内で登録してください')
+      return errors
+    },
+    selectErrors() {
+      const errors = []
+      if (!this.$v.color.$dirty) return errors
+      !this.$v.color.required && errors.push('選択してください')
+      return errors
+    },
   },
   methods: {
     submit() {
-      this.$store.dispatch('post/addPost', {
-        content: this.content,
-        color: this.color,
-      })
-      this.setPost()
-      this.content = ''
-      this.color = 'BLACK'
-      this.dialog = false
+      this.$v.$touch()
+      if (!this.$v.$invalid) {
+        this.$store.dispatch('post/addPost', {
+          content: this.content,
+          color: this.color,
+        })
+        this.setPost()
+        this.content = ''
+        this.color = 'BLACK'
+        this.dialog = false
+      }
     },
     setPost() {
       return new Promise((resolve, reject) => {
@@ -92,7 +118,7 @@ export default {
         postObject.postId = this.createId()
         postObject.content = this.content
         postObject.color = this.color
-        postObject.createdAt = new Date()
+        postObject.createdAt = firebase.firestore.FieldValue.serverTimestamp()
         postObject.authorId = this.user.uid
         const newPost = firebase
           .firestore()
