@@ -113,28 +113,26 @@ export default {
       }
     },
     setPost() {
-      return new Promise((resolve, reject) => {
-        const postObject = {}
-        postObject.postId = this.createId()
-        postObject.content = this.content
-        postObject.color = this.color
-        postObject.createdAt = firebase.firestore.FieldValue.serverTimestamp()
-        postObject.authorId = this.user.uid
-        const newPost = firebase
-          .firestore()
-          .collection('posts')
-          .doc(postObject.postId)
-        newPost
-          .set(postObject, { merge: true })
-          .then((result) => {
-            this.$emit('set-message', '投稿されました！')
-            this.$router.push({ path: '/' })
-            resolve(postObject)
-          })
-          .catch((result) => {
-            this.$emit('set-message', '投稿できませんでした。')
-          })
-      })
+      const postObject = {
+        postId: this.createId(),
+        content: this.content,
+        color: this.color,
+        createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+        authorId: this.user.uid,
+      }
+      const newPost = firebase
+        .firestore()
+        .collection('posts')
+        .doc(postObject.postId)
+      newPost
+        .set(postObject, { merge: true })
+        .then((result) => {
+          this.$emit('set-message', '投稿されました！')
+          this.$router.push({ path: '/' })
+        })
+        .catch((result) => {
+          this.$emit('set-message', '投稿できませんでした。')
+        })
     },
     createId() {
       return firebase.firestore().collection('_').doc().id
