@@ -1,11 +1,19 @@
 <template>
-  <v-dialog v-model="dialog" max-width="500">
+  <v-dialog v-if="authenticated" v-model="dialog" max-width="500">
     <template v-slot:activator="{ on, attrs }">
-      <v-btn class="btn--create" color="#000" fab v-bind="attrs" v-on="on">
-        <v-icon color="#fff">mdi-pencil</v-icon>
+      <v-btn
+        class="white--text"
+        color="#ff4081"
+        depressed
+        v-bind="attrs"
+        v-on="on"
+      >
+        <v-icon left>mdi-pencil</v-icon>
+        投稿
       </v-btn>
     </template>
     <v-card>
+      <v-card-title><span class="headline">投稿フォーム</span></v-card-title>
       <v-card-text>
         <form>
           <v-container>
@@ -13,27 +21,23 @@
               <v-col cols="12">
                 <v-textarea
                   v-model="content"
-                  outlined
                   counter
+                  :error-messages="contentErrors"
                   label="content"
-                  :rules="rules"
                   required
+                  @input="$v.content.$touch()"
+                  @blur="$v.content.$touch()"
                 ></v-textarea>
-              </v-col>
-              <v-col cols="12">
-                <v-text-field
-                  v-model="name"
-                  outlined
-                  :counter="15"
-                  label="name"
-                ></v-text-field>
               </v-col>
               <v-col cols="12">
                 <v-select
                   v-model="color"
-                  outlined
                   :items="colors"
+                  :error-messages="selectErrors"
                   label="color"
+                  required
+                  @change="$v.color.$touch()"
+                  @blur="$v.color.$touch()"
                 ></v-select>
               </v-col>
             </v-row>
@@ -43,38 +47,96 @@
       <v-card-actions>
         <v-spacer></v-spacer>
         <v-btn depressed @click="dialog = false">CLOSE</v-btn>
-        <v-btn depressed color="primary" @click="submit">投稿を作成</v-btn>
+        <v-btn class="white--text" color="#ff4081" depressed @click="submit"
+          >投稿を作成</v-btn
+        >
       </v-card-actions>
     </v-card>
   </v-dialog>
 </template>
 
 <script>
+import { validationMixin } from 'vuelidate'
+import { required, maxLength } from 'vuelidate/lib/validators'
+import firebase from '~/plugins/firebase'
+
 export default {
+  mixins: [validationMixin],
+  validations: {
+    content: { required, maxLength: maxLength(140) },
+    color: { required },
+  },
+  props: {
+    authenticated: {
+      type: Boolean,
+      required: true,
+    },
+  },
   data() {
     return {
       dialog: false,
       content: '',
-      rules: [(v) => v.length <= 140 || 'Max 140 characters'],
-      name: '',
       color: 'BLACK',
       colors: this.$store.state.post.colors,
     }
   },
+  computed: {
+    user() {
+      return this.$store.getters['auth/user']
+    },
+    contentErrors() {
+      const errors = []
+      if (!this.$v.content.$dirty) return errors
+      !this.$v.content.required && errors.push('必須項目です')
+      !this.$v.content.maxLength && errors.push('140文字以内で登録してください')
+      return errors
+    },
+    selectErrors() {
+      const errors = []
+      if (!this.$v.color.$dirty) return errors
+      !this.$v.color.required && errors.push('選択してください')
+      return errors
+    },
+  },
   methods: {
     submit() {
-      this.$store.dispatch('post/addPost', {
+      this.$v.$touch()
+      if (!this.$v.$invalid) {
+        this.$store.dispatch('post/addPost', {
+          content: this.content,
+          color: this.color,
+        })
+        this.setPost()
+        this.content = ''
+        this.color = 'BLACK'
+        this.dialog = false
+      }
+    },
+    setPost() {
+      const postObject = {
+        postId: this.createId(),
         content: this.content,
-        name: this.name,
         color: this.color,
-      })
-      this.content = ''
-      this.name = ''
-      this.color = 'BLACK'
-      this.dialog = false
+        createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+        authorId: this.user.uid,
+      }
+      const newPost = firebase
+        .firestore()
+        .collection('posts')
+        .doc(postObject.postId)
+      newPost
+        .set(postObject, { merge: true })
+        .then((result) => {
+          this.$emit('set-message', '投稿されました！')
+          this.$router.push({ path: '/' })
+        })
+        .catch((result) => {
+          this.$emit('set-message', '投稿できませんでした。')
+        })
+    },
+    createId() {
+      return firebase.firestore().collection('_').doc().id
     },
   },
 }
 </script>
-
-<style></style>

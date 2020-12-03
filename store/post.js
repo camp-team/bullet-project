@@ -14,10 +14,9 @@ export const mutations = {
 }
 
 export const actions = {
-  addPost({ commit }, { content, name, color }) {
+  addPost({ commit }, { content, color }) {
     const newPost = {
       content,
-      name,
       color,
     }
     commit('addPost', newPost)

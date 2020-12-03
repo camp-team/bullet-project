@@ -20,7 +20,7 @@ header.header {
 
   .header__icon {
     img {
-      max-width: 40px;
+      max-width: 32px;
       border-radius: 50%;
     }
   }
@@ -28,13 +28,6 @@ header.header {
 
 .v-main {
   background-color: #f5f6f7;
-}
-
-.v-btn.btn--create {
-  position: fixed;
-  right: 16px;
-  bottom: 16px;
-  z-index: 2;
 }
 
 .grid {
