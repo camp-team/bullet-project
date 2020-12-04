@@ -1,6 +1,7 @@
 <template>
   <div>
     <SearchForm />
+    <h1 class="text-h4 mb-2 text-center">ALL</h1>
     <CardList />
   </div>
 </template>

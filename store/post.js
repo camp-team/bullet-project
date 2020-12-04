@@ -1,7 +1,7 @@
 export const state = () => ({
   posts: [],
   filterQuery: {},
-  colors: ['BLACK', 'BLUE', 'PURPLE', 'GREEN', 'RED', 'YELLOW', 'WHITE'],
+  colors: ['black', 'blue', 'purple', 'green', 'red', 'yellow', 'white'],
 })
 
 export const mutations = {
