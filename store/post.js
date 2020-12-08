@@ -1,3 +1,8 @@
+import firebase from '~/plugins/firebase'
+
+const db = firebase.firestore()
+const postRef = db.collection('posts')
+
 export const state = () => ({
   posts: [],
   filterQuery: {},
@@ -14,15 +19,18 @@ export const mutations = {
 }
 
 export const actions = {
-  addPost({ commit }, { content, color }) {
-    const newPost = {
-      content,
-      color,
-    }
-    commit('addPost', newPost)
-  },
   setFilter({ commit }, filterQuery) {
     commit('setFilter', filterQuery)
+  },
+  fetch({ commit }) {
+    return new Promise((resolve, reject) => {
+      postRef.get().then((res) => {
+        res.forEach((doc) => {
+          commit('addPost', doc.data())
+        })
+        resolve()
+      })
+    })
   },
 }
 

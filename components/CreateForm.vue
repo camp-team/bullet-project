@@ -104,10 +104,6 @@ export default {
     submit() {
       this.$v.$touch()
       if (!this.$v.$invalid) {
-        this.$store.dispatch('post/addPost', {
-          content: this.content,
-          color: this.color,
-        })
         this.setPost()
         this.content = ''
         this.color = 'black'
