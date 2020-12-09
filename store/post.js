@@ -16,8 +16,8 @@ export const mutations = {
   setPosts(state, payload) {
     state.posts = payload
   },
-  setAuthors(state, payload) {
-    state.authors = payload
+  setAuthor(state, payload) {
+    state.authors.push(payload)
   },
   setPostsWithAuthor(state, payload) {
     state.postsWithAuthor = payload
@@ -31,45 +31,39 @@ export const actions = {
   setFilter({ commit }, filterQuery) {
     commit('setFilter', filterQuery)
   },
-  setPosts({ commit }) {
-    return new Promise((resolve, reject) => {
-      postRef.onSnapshot((querySnapshot) => {
-        const posts = []
-        querySnapshot.forEach((doc) => {
-          posts.push(doc.data())
-        })
-        commit('setPosts', posts)
-        resolve(posts)
+  setPosts({ commit, dispatch }) {
+    postRef.onSnapshot((querySnapshot) => {
+      const posts = []
+      querySnapshot.forEach((doc) => {
+        posts.push(doc.data())
       })
+      commit('setPosts', posts)
+      dispatch('setAuthors')
     })
   },
-  setAuthors({ commit }) {
-    return new Promise((resolve, reject) => {
-      userRef.onSnapshot((querySnapshot) => {
-        const authors = []
-        querySnapshot.forEach((doc) => {
-          authors.push(doc.data())
+  setAuthors({ commit, dispatch }) {
+    userRef
+      .get()
+      .then((ref) => {
+        ref.forEach((doc) => {
+          commit('setAuthor', doc.data())
         })
-        commit('setAuthors', authors)
-        resolve(authors)
       })
-    })
+      .then(() => {
+        dispatch('setPostsWithAuthor')
+      })
   },
-  setPostsWithAuthor({ commit, dispatch }) {
-    Promise.all([dispatch('setPosts'), dispatch('setAuthors')]).then(
-      (values) => {
-        const posts = values[0]
-        const authors = values[1]
-        const result = posts.map((post) => {
-          const postWithAuthor = {
-            ...post,
-            author: authors.find((user) => user.uid === post.authorId),
-          }
-          return postWithAuthor
-        })
-        commit('setPostsWithAuthor', result)
+  setPostsWithAuthor({ commit, state }) {
+    const posts = state.posts
+    const authors = state.authors
+    const result = posts.map((post) => {
+      const postWithAuthor = {
+        ...post,
+        author: authors.find((user) => user.uid === post.authorId),
       }
-    )
+      return postWithAuthor
+    })
+    commit('setPostsWithAuthor', result)
   },
 }
 

@@ -38,7 +38,7 @@ export default {
     },
   },
   created() {
-    this.$store.dispatch('post/setPostsWithAuthor')
+    this.$store.dispatch('post/setPosts')
   },
   mounted() {
     this.$redrawVueMasonry()
