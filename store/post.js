@@ -2,16 +2,25 @@ import firebase from '~/plugins/firebase'
 
 const db = firebase.firestore()
 const postRef = db.collection('posts')
+const userRef = db.collection('users')
 
 export const state = () => ({
   posts: [],
   filterQuery: {},
   colors: ['black', 'blue', 'purple', 'green', 'red', 'yellow', 'white'],
+  authors: [],
+  postsWithAuthor: [],
 })
 
 export const mutations = {
-  addPost(state, payload) {
-    state.posts.push(payload)
+  setPosts(state, payload) {
+    state.posts = payload
+  },
+  setAuthors(state, payload) {
+    state.authors = payload
+  },
+  setPostsWithAuthor(state, payload) {
+    state.postsWithAuthor = payload
   },
   setFilter(state, payload) {
     state.filterQuery = { ...payload }
@@ -22,15 +31,45 @@ export const actions = {
   setFilter({ commit }, filterQuery) {
     commit('setFilter', filterQuery)
   },
-  fetch({ commit }) {
+  setPosts({ commit }) {
     return new Promise((resolve, reject) => {
-      postRef.get().then((res) => {
-        res.forEach((doc) => {
-          commit('addPost', doc.data())
+      postRef.onSnapshot((querySnapshot) => {
+        const posts = []
+        querySnapshot.forEach((doc) => {
+          posts.push(doc.data())
         })
-        resolve()
+        commit('setPosts', posts)
+        resolve(posts)
       })
     })
+  },
+  setAuthors({ commit }) {
+    return new Promise((resolve, reject) => {
+      userRef.onSnapshot((querySnapshot) => {
+        const authors = []
+        querySnapshot.forEach((doc) => {
+          authors.push(doc.data())
+        })
+        commit('setAuthors', authors)
+        resolve(authors)
+      })
+    })
+  },
+  setPostsWithAuthor({ commit, dispatch }) {
+    Promise.all([dispatch('setPosts'), dispatch('setAuthors')]).then(
+      (values) => {
+        const posts = values[0]
+        const authors = values[1]
+        const result = posts.map((post) => {
+          const postWithAuthor = {
+            ...post,
+            author: authors.find((user) => user.uid === post.authorId),
+          }
+          return postWithAuthor
+        })
+        commit('setPostsWithAuthor', result)
+      }
+    )
   },
 }
 

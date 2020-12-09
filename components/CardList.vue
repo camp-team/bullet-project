@@ -22,8 +22,6 @@
 </template>
 
 <script>
-import firebase from '~/plugins/firebase'
-
 export default {
   filters: {
     toClass(color) {
@@ -31,68 +29,19 @@ export default {
       return 'is-' + color
     },
   },
-  data() {
-    return {
-      postsWithAuthor: [],
-    }
-  },
   computed: {
     posts() {
       return this.$store.state.post.posts
     },
+    postsWithAuthor() {
+      return this.$store.state.post.postsWithAuthor
+    },
   },
   created() {
-    this.$store.dispatch('post/fetch').then(() => {
-      this.getPosts(this.posts)
-    })
+    this.$store.dispatch('post/setPostsWithAuthor')
   },
   mounted() {
     this.$redrawVueMasonry()
-  },
-  methods: {
-    getPosts(posts) {
-      this.getAuthers(posts).then((users) => this.addAuthorToPost(users))
-    },
-    getAuthers(posts) {
-      return new Promise((resolve, reject) => {
-        if (posts.length) {
-          const authorIds = posts
-            .filter((post, index, self) => {
-              return (
-                self.findIndex((item) => post.authorId === item.authorId) ===
-                index
-              )
-            })
-            .map((post) => post.authorId)
-
-          const users = Promise.all(
-            authorIds.map(async (uid) => {
-              const doc = await firebase
-                .firestore()
-                .collection('users')
-                .doc(uid)
-                .get()
-              const data = doc.data()
-              return data
-            })
-          )
-
-          resolve(users)
-        } else {
-          resolve([])
-        }
-      })
-    },
-    addAuthorToPost(users) {
-      const result = this.posts.map((post) => {
-        const postWithAuthor = {
-          ...post,
-          author: users.find((user) => user.uid === post.authorId),
-        }
-        return postWithAuthor
-      })
-      this.postsWithAuthor = result
-    },
   },
 }
 </script>
