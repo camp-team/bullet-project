@@ -34,7 +34,7 @@ export default {
       return this.$store.state.post.posts
     },
     postsWithAuthor() {
-      return this.$store.state.post.postsWithAuthor
+      return this.$store.getters['post/orderdPosts']
     },
   },
   created() {

@@ -86,4 +86,8 @@ export const getters = {
 
     return posts
   },
+  orderdPosts: (state) => {
+    // eslint-disable-next-line no-undef
+    return _.orderBy(state.postsWithAuthor, 'createdAt', 'desc')
+  },
 }
