@@ -76,13 +76,15 @@ export default {
     return {
       dialog: false,
       content: '',
-      color: 'BLACK',
-      colors: this.$store.state.post.colors,
+      color: 'black',
     }
   },
   computed: {
     user() {
       return this.$store.getters['auth/user']
+    },
+    colors() {
+      return this.$store.state.post.colors
     },
     contentErrors() {
       const errors = []
@@ -102,13 +104,9 @@ export default {
     submit() {
       this.$v.$touch()
       if (!this.$v.$invalid) {
-        this.$store.dispatch('post/addPost', {
-          content: this.content,
-          color: this.color,
-        })
         this.setPost()
         this.content = ''
-        this.color = 'BLACK'
+        this.color = 'black'
         this.dialog = false
       }
     },

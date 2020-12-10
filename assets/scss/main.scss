@@ -1,11 +1,11 @@
 $colors : (
-  'black': rgba(0, 0, 0, 0.6),
-  'blue': rgba(187, 222, 251, 0.6),
-  'purple': rgba(225, 190, 231, 0.6),
-  'green': rgba(200, 230, 201, 0.6),
-  'red': rgba(255, 205, 210, 0.6),
-  'yellow': rgba(255, 249, 196, 0.6),
-  'white': #fff
+  'black': rgba(0, 0, 0, 0.8),
+  'blue': rgba(66, 165, 245, 0.8),
+  'purple': rgba(171, 71, 188, 0.8),
+  'green': rgba(102, 187, 106, 0.8),
+  'red': rgba(239, 83, 80, 0.8),
+  'yellow': rgba(255, 202, 40, 0.8),
+  'white': rgba(189, 189, 189, 0.8)
 );
 
 header.header {
@@ -26,24 +26,43 @@ header.header {
   }
 }
 
-.v-main {
-  background-color: #f5f6f7;
+.main {
+  background-color: #fafafa;
+
+  .container {
+    padding-top: 30px;
+    padding-bottom: 30px;
+  }
 }
 
 .grid {
-  .v-card {
+  margin-top: 30px;
+
+  .grid__card {
     @each $color-label, $color-value in $colors {
       &.is-#{$color-label} {
-        background-color: $color-value;
-      }
-
-      @if #{$color-label} == 'black' {
-        &.is-#{$color-label} {
-          .v-card__text {
-            color: #fff;
-          }
+        .card__icon {
+          background-color: $color-value;
         }
       }
+    }
+
+    .card__icon {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+      margin: 0 0 10px 0;
+      border-radius: 4px;
+
+      i {
+        color: #fff;
+      }
+    }
+
+    .card__content {
+      color: #222;
     }
   }
 }

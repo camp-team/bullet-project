@@ -1,12 +1,26 @@
+import firebase from '~/plugins/firebase'
+
+const db = firebase.firestore()
+const postRef = db.collection('posts')
+const userRef = db.collection('users')
+
 export const state = () => ({
   posts: [],
   filterQuery: {},
-  colors: ['BLACK', 'BLUE', 'PURPLE', 'GREEN', 'RED', 'YELLOW', 'WHITE'],
+  colors: ['black', 'blue', 'purple', 'green', 'red', 'yellow', 'white'],
+  authors: [],
+  postsWithAuthor: [],
 })
 
 export const mutations = {
-  addPost(state, payload) {
-    state.posts.push(payload)
+  setPosts(state, payload) {
+    state.posts = payload
+  },
+  setAuthor(state, payload) {
+    state.authors.push(payload)
+  },
+  setPostsWithAuthor(state, payload) {
+    state.postsWithAuthor = payload
   },
   setFilter(state, payload) {
     state.filterQuery = { ...payload }
@@ -14,15 +28,42 @@ export const mutations = {
 }
 
 export const actions = {
-  addPost({ commit }, { content, color }) {
-    const newPost = {
-      content,
-      color,
-    }
-    commit('addPost', newPost)
-  },
   setFilter({ commit }, filterQuery) {
     commit('setFilter', filterQuery)
+  },
+  setPosts({ commit, dispatch }) {
+    postRef.onSnapshot((querySnapshot) => {
+      const posts = []
+      querySnapshot.forEach((doc) => {
+        posts.push(doc.data())
+      })
+      commit('setPosts', posts)
+      dispatch('setAuthors')
+    })
+  },
+  setAuthors({ commit, dispatch }) {
+    userRef
+      .get()
+      .then((ref) => {
+        ref.forEach((doc) => {
+          commit('setAuthor', doc.data())
+        })
+      })
+      .then(() => {
+        dispatch('setPostsWithAuthor')
+      })
+  },
+  setPostsWithAuthor({ commit, state }) {
+    const posts = state.posts
+    const authors = state.authors
+    const result = posts.map((post) => {
+      const postWithAuthor = {
+        ...post,
+        author: authors.find((user) => user.uid === post.authorId),
+      }
+      return postWithAuthor
+    })
+    commit('setPostsWithAuthor', result)
   },
 }
 
@@ -44,5 +85,9 @@ export const getters = {
     }
 
     return posts
+  },
+  orderdPosts: (state) => {
+    // eslint-disable-next-line no-undef
+    return _.orderBy(state.postsWithAuthor, 'createdAt', 'desc')
   },
 }

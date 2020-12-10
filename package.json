@@ -19,6 +19,7 @@
     "core-js": "^3.6.5",
     "firebase": "^8.0.2",
     "nuxt": "^2.14.6",
+    "vue-masonry": "^0.12.0",
     "vuelidate": "^0.7.6"
   },
   "devDependencies": {
