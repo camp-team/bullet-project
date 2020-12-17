@@ -10,7 +10,6 @@ const userRef = db.collection('users')
 
 export const state = () => ({
   posts: [],
-  filterQuery: {},
   colors: ['black', 'blue', 'purple', 'green', 'red', 'yellow', 'white'],
   authors: [],
   postsWithAuthor: [],
@@ -27,18 +26,12 @@ export const mutations = {
   setPostsWithAuthor(state, payload) {
     state.postsWithAuthor = payload
   },
-  setFilter(state, payload) {
-    state.filterQuery = { ...payload }
-  },
   setSearchHits(state, payload) {
     state.searchHits = payload
   },
 }
 
 export const actions = {
-  setFilter({ commit }, filterQuery) {
-    commit('setFilter', filterQuery)
-  },
   setPosts({ commit, dispatch }) {
     postRef.onSnapshot((querySnapshot) => {
       const posts = []
@@ -46,20 +39,20 @@ export const actions = {
         posts.push(doc.data())
       })
       commit('setPosts', posts)
-      dispatch('setAuthors')
-    })
-  },
-  setAuthors({ commit, dispatch }) {
-    userRef
-      .get()
-      .then((ref) => {
-        ref.forEach((doc) => {
-          commit('setAuthor', doc.data())
-        })
-      })
-      .then(() => {
+      dispatch('setAuthors').then(() => {
         dispatch('setPostsWithAuthor')
       })
+    })
+  },
+  setAuthors({ commit }) {
+    return new Promise((resolve, reject) => {
+      userRef.get().then((res) => {
+        res.forEach((doc) => {
+          commit('setAuthor', doc.data())
+        })
+        resolve()
+      })
+    })
   },
   setPostsWithAuthor({ commit, state }) {
     const posts = state.posts
@@ -73,11 +66,8 @@ export const actions = {
     })
     commit('setPostsWithAuthor', result)
   },
-  async search({ commit }, filterQuery) {
-    await commit('setFilter', filterQuery)
-    const result = await index.search(filterQuery.keyword, {
-      facetFilters: [`color:${filterQuery.color}`],
-    })
+  async search({ commit }, keyword) {
+    const result = await index.search(keyword)
     commit('setSearchHits', result.hits)
   },
 }

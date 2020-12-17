@@ -29,8 +29,5 @@ export default {
       return this.$store.getters['post/orderedPosts']
     },
   },
-  created() {
-    this.$store.dispatch('post/setPosts')
-  },
 }
 </script>

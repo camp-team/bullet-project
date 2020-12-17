@@ -21,6 +21,7 @@ export default {
   plugins: [
     { src: '~/plugins/firebase.js' },
     { src: '~/plugins/auth.js' },
+    { src: '~/plugins/post.js' },
     { src: '~/plugins/vue-masonry.js', mode: 'client' },
   ],
 
