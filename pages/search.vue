@@ -2,7 +2,7 @@
   <div class="content">
     <div class="search-area">
       <div class="container">
-        <SearchForm />
+        <SearchForm @search="onSearch" />
       </div>
     </div>
     <div v-if="posts">
@@ -33,9 +33,14 @@ export default {
     SearchForm,
     Card,
   },
-  computed: {
-    posts() {
-      return this.$store.getters['post/searchHits']
+  data() {
+    return {
+      posts: [],
+    }
+  },
+  methods: {
+    onSearch(result) {
+      this.posts = result
     },
   },
 }
