@@ -1,19 +1,36 @@
 <template>
-  <div>
-    <SearchForm />
-    <h1 class="text-h4 mb-2 text-center">ALL</h1>
-    <CardList />
+  <div class="content">
+    <div class="container">
+      <v-row v-masonry class="grid masonry-container" item-selector=".item">
+        <v-col
+          v-for="(post, i) in posts"
+          :key="i"
+          v-masonry-tile
+          class="item"
+          cols="12"
+          sm="4"
+        >
+          <Card :post="post" />
+        </v-col>
+      </v-row>
+    </div>
   </div>
 </template>
 
 <script>
-import CardList from '~/components/CardList.vue'
-import SearchForm from '~/components/SearchForm.vue'
+import Card from '~/components/Card.vue'
 
 export default {
   components: {
-    CardList,
-    SearchForm,
+    Card,
+  },
+  computed: {
+    posts() {
+      return this.$store.getters['post/orderedPosts']
+    },
+  },
+  created() {
+    this.$store.dispatch('post/setPosts')
   },
 }
 </script>

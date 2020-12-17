@@ -1,4 +1,8 @@
+import algoliasearch from 'algoliasearch/lite'
 import firebase from '~/plugins/firebase'
+
+const client = algoliasearch('2JJ6QFSYJE', '49d155a98ed7b52ce9b20cd157d0d133')
+const index = client.initIndex('posts_dev')
 
 const db = firebase.firestore()
 const postRef = db.collection('posts')
@@ -10,6 +14,7 @@ export const state = () => ({
   colors: ['black', 'blue', 'purple', 'green', 'red', 'yellow', 'white'],
   authors: [],
   postsWithAuthor: [],
+  searchHits: [],
 })
 
 export const mutations = {
@@ -24,6 +29,9 @@ export const mutations = {
   },
   setFilter(state, payload) {
     state.filterQuery = { ...payload }
+  },
+  setSearchHits(state, payload) {
+    state.searchHits = payload
   },
 }
 
@@ -65,29 +73,30 @@ export const actions = {
     })
     commit('setPostsWithAuthor', result)
   },
+  async search({ commit }, filterQuery) {
+    await commit('setFilter', filterQuery)
+    const result = await index.search(filterQuery.keyword, {
+      facetFilters: [`color:${filterQuery.color}`],
+    })
+    commit('setSearchHits', result.hits)
+  },
 }
 
 export const getters = {
-  filterdPosts: (state) => {
-    let posts = state.posts
-    const keyword = state.filterQuery.keyword
-
-    if (keyword) {
-      posts = posts.filter((post) => {
-        return post.content.includes(keyword) || post.name.includes(keyword)
-      })
-    }
-
-    if (state.filterQuery.color) {
-      posts = posts.filter((post) => {
-        return post.color === state.filterQuery.color
-      })
-    }
-
-    return posts
-  },
-  orderdPosts: (state) => {
+  orderedPosts: (state) => {
     // eslint-disable-next-line no-undef
     return _.orderBy(state.postsWithAuthor, 'createdAt', 'desc')
+  },
+  searchHits: (state) => {
+    const posts = state.searchHits
+    const authors = state.authors
+    const result = posts.map((post) => {
+      const postWithAuthor = {
+        ...post,
+        author: authors.find((user) => user.uid === post.authorId),
+      }
+      return postWithAuthor
+    })
+    return result
   },
 }

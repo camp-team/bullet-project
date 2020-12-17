@@ -8,8 +8,6 @@
             outlined
             label="search keyword"
             hide-details="auto"
-            clearable
-            @change="setFilter"
           ></v-text-field>
         </v-col>
         <v-col cols="12" sm="4">
@@ -20,8 +18,18 @@
             label="select color"
             hide-details="auto"
             clearable
-            @change="setFilter"
+            @click:clear="$nextTick(() => (filterQuery.color = ''))"
           ></v-select>
+        </v-col>
+        <v-col cols="12" sm="4">
+          <v-btn
+            class="white--text"
+            color="#ff4081"
+            depressed
+            block
+            @click="search()"
+            >search</v-btn
+          >
         </v-col>
       </v-row>
     </form>
@@ -44,12 +52,9 @@ export default {
       return this.$store.state.post.colors
     },
   },
-  mounted() {
-    this.$store.dispatch('post/setFilter', this.filterQuery)
-  },
   methods: {
-    setFilter() {
-      this.$store.dispatch('post/setFilter', this.filterQuery)
+    search() {
+      this.$store.dispatch('post/search', this.filterQuery)
     },
   },
 }

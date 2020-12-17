@@ -2,6 +2,7 @@
   <v-app-bar class="header" color="#fff" flat fixed app>
     <v-toolbar-title class="header__title" v-text="title" />
     <v-spacer />
+    <v-btn icon to="/search"><v-icon>mdi-magnify</v-icon></v-btn>
     <v-btn
       v-if="!isAuthenticated"
       class="white--text"
