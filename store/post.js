@@ -39,20 +39,20 @@ export const actions = {
         posts.push(doc.data())
       })
       commit('setPosts', posts)
-      dispatch('setAuthors').then(() => {
-        dispatch('setPostsWithAuthor')
-      })
+      dispatch('setAuthors')
     })
   },
-  setAuthors({ commit }) {
-    return new Promise((resolve, reject) => {
-      userRef.get().then((res) => {
+  setAuthors({ commit, dispatch }) {
+    userRef
+      .get()
+      .then((res) => {
         res.forEach((doc) => {
           commit('setAuthor', doc.data())
         })
-        resolve()
       })
-    })
+      .then(() => {
+        dispatch('setPostsWithAuthor')
+      })
   },
   setPostsWithAuthor({ commit, state }) {
     const posts = state.posts
@@ -88,5 +88,17 @@ export const getters = {
       return postWithAuthor
     })
     return result
+  },
+  filterByColor: (state) => (color) => {
+    let posts = state.postsWithAuthor
+
+    if (color) {
+      posts = posts.filter((post) => {
+        return post.color === color
+      })
+    }
+
+    // eslint-disable-next-line no-undef
+    return _.orderBy(posts, 'createdAt', 'desc')
   },
 }

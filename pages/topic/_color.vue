@@ -22,11 +22,7 @@
 </template>
 
 <script>
-import algoliasearch from 'algoliasearch/lite'
 import Card from '~/components/Card'
-
-const client = algoliasearch('2JJ6QFSYJE', '49d155a98ed7b52ce9b20cd157d0d133')
-const index = client.initIndex('posts_dev')
 
 export default {
   components: {
@@ -36,34 +32,9 @@ export default {
     const color = params.color
     return { color }
   },
-  data() {
-    return {
-      posts: [],
-    }
-  },
   computed: {
-    authors() {
-      return this.$store.state.post.authors
-    },
-  },
-  created() {
-    this.$store.dispatch('post/setAuthors').then(() => {
-      this.search()
-    })
-  },
-  methods: {
-    async search() {
-      const result = await index.search('', {
-        facetFilters: [`color:${this.color}`],
-      })
-      const posts = result.hits.map((post) => {
-        const postWithAuthor = {
-          ...post,
-          author: this.authors.find((user) => user.uid === post.authorId),
-        }
-        return postWithAuthor
-      })
-      this.posts = posts
+    posts() {
+      return this.$store.getters['post/filterByColor'](this.color)
     },
   },
 }
