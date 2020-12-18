@@ -38,7 +38,7 @@ header.header {
 .grid {
   margin-top: 30px;
 
-  .grid__card {
+  .card {
     @each $color-label, $color-value in $colors {
       &.is-#{$color-label} {
         .card__icon {

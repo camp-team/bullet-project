@@ -1,5 +1,5 @@
 <template>
-  <v-card class="grid__card" :class="post.color | toClass" outlined>
+  <v-card class="card" :class="post.color | toClass" outlined>
     <v-card-text class="card__body">
       <span class="card__icon"><v-icon>mdi-train-variant</v-icon></span>
       <p class="card__content">{{ post.content }}</p>
