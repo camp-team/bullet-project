@@ -2,9 +2,7 @@
   <v-app dark>
     <Header />
     <v-main class="main">
-      <v-container class="container">
-        <nuxt />
-      </v-container>
+      <nuxt />
     </v-main>
     <v-footer color="#fff">
       <v-col class="text-center">

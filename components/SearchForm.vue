@@ -1,56 +1,115 @@
 <template>
   <div>
-    <form>
+    <form @submit.prevent>
       <v-row :justify="justify">
-        <v-col cols="12" sm="4">
+        <v-col cols="12" sm="8">
           <v-text-field
-            v-model.trim="filterQuery.keyword"
+            v-model.trim="keyword"
             outlined
             label="search keyword"
+            prepend-inner-icon="mdi-magnify"
             hide-details="auto"
-            clearable
-            @change="setFilter"
+            @change="search()"
           ></v-text-field>
-        </v-col>
-        <v-col cols="12" sm="4">
-          <v-select
-            v-model="filterQuery.color"
-            outlined
-            :items="colors"
-            label="select color"
-            hide-details="auto"
-            clearable
-            @change="setFilter"
-          ></v-select>
         </v-col>
       </v-row>
     </form>
+    <div class="chips text-center">
+      <p class="chips__title">Color Topics</p>
+      <div>
+        <v-chip class="chips__item" color="rgba(0, 0, 0, 0.8)" to="/topic/black"
+          ><v-icon left>mdi-train-variant</v-icon>black</v-chip
+        >
+        <v-chip
+          class="chips__item"
+          color="rgba(66, 165, 245, 0.8)"
+          to="/topic/blue"
+          ><v-icon left>mdi-train-variant</v-icon>blue</v-chip
+        >
+        <v-chip
+          class="chips__item"
+          color="rgba(171, 71, 188, 0.8)"
+          to="/topic/purple"
+          ><v-icon left>mdi-train-variant</v-icon>purple</v-chip
+        >
+        <v-chip
+          class="chips__item"
+          color="rgba(102, 187, 106, 0.8)"
+          to="/topic/green"
+          ><v-icon left>mdi-train-variant</v-icon>green</v-chip
+        >
+        <v-chip
+          class="chips__item"
+          color="rgba(239, 83, 80, 0.8)"
+          to="/topic/red"
+          ><v-icon left>mdi-train-variant</v-icon>red</v-chip
+        >
+        <v-chip
+          class="chips__item"
+          color="rgba(255, 202, 40, 0.8)"
+          to="/topic/yellow"
+          ><v-icon left>mdi-train-variant</v-icon>yellow</v-chip
+        >
+        <v-chip
+          class="chips__item"
+          color="rgba(189, 189, 189, 0.8)"
+          to="/topic/white"
+          ><v-icon left>mdi-train-variant</v-icon>white</v-chip
+        >
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
+import algoliasearch from 'algoliasearch/lite'
+
+const client = algoliasearch('2JJ6QFSYJE', '49d155a98ed7b52ce9b20cd157d0d133')
+const index = client.initIndex('posts_dev')
+
 export default {
   data() {
     return {
-      filterQuery: {
-        keyword: '',
-        color: '',
-      },
-      justify: 'end',
+      keyword: '',
+      justify: 'center',
     }
   },
   computed: {
     colors() {
       return this.$store.state.post.colors
     },
-  },
-  mounted() {
-    this.$store.dispatch('post/setFilter', this.filterQuery)
+    authors() {
+      return this.$store.state.post.authors
+    },
   },
   methods: {
-    setFilter() {
-      this.$store.dispatch('post/setFilter', this.filterQuery)
+    async search() {
+      const searchedPosts = await index.search(this.keyword)
+      const result = searchedPosts.hits.map((post) => {
+        const postWithAuthor = {
+          ...post,
+          author: this.authors.find((user) => user.uid === post.authorId),
+        }
+        return postWithAuthor
+      })
+      this.$emit('search', result)
     },
   },
 }
 </script>
+
+<style lang="scss" scoped>
+.chips {
+  padding: 20px 0;
+
+  &__title {
+    font-size: 18px;
+    font-weight: bold;
+  }
+
+  &__item {
+    margin: 5px 2px;
+    color: #fff;
+  }
+}
+</style>

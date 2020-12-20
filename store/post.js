@@ -6,7 +6,6 @@ const userRef = db.collection('users')
 
 export const state = () => ({
   posts: [],
-  filterQuery: {},
   colors: ['black', 'blue', 'purple', 'green', 'red', 'yellow', 'white'],
   authors: [],
   postsWithAuthor: [],
@@ -22,15 +21,9 @@ export const mutations = {
   setPostsWithAuthor(state, payload) {
     state.postsWithAuthor = payload
   },
-  setFilter(state, payload) {
-    state.filterQuery = { ...payload }
-  },
 }
 
 export const actions = {
-  setFilter({ commit }, filterQuery) {
-    commit('setFilter', filterQuery)
-  },
   setPosts({ commit, dispatch }) {
     postRef.onSnapshot((querySnapshot) => {
       const posts = []
@@ -44,8 +37,8 @@ export const actions = {
   setAuthors({ commit, dispatch }) {
     userRef
       .get()
-      .then((ref) => {
-        ref.forEach((doc) => {
+      .then((res) => {
+        res.forEach((doc) => {
           commit('setAuthor', doc.data())
         })
       })
@@ -68,26 +61,20 @@ export const actions = {
 }
 
 export const getters = {
-  filterdPosts: (state) => {
-    let posts = state.posts
-    const keyword = state.filterQuery.keyword
-
-    if (keyword) {
-      posts = posts.filter((post) => {
-        return post.content.includes(keyword) || post.name.includes(keyword)
-      })
-    }
-
-    if (state.filterQuery.color) {
-      posts = posts.filter((post) => {
-        return post.color === state.filterQuery.color
-      })
-    }
-
-    return posts
-  },
-  orderdPosts: (state) => {
+  orderedPosts: (state) => {
     // eslint-disable-next-line no-undef
     return _.orderBy(state.postsWithAuthor, 'createdAt', 'desc')
+  },
+  filterByColor: (state) => (color) => {
+    let posts = state.postsWithAuthor
+
+    if (color) {
+      posts = posts.filter((post) => {
+        return post.color === color
+      })
+    }
+
+    // eslint-disable-next-line no-undef
+    return _.orderBy(posts, 'createdAt', 'desc')
   },
 }
