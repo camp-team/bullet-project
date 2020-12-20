@@ -27,7 +27,16 @@
         </v-list-item>
       </v-list>
       <v-divider></v-divider>
-      <v-list>
+      <v-list dense>
+        <v-list-item href="https://forms.gle/sGa1N9Ruziub3nGu7" target="_blank">
+          <v-list-item-icon class="list__icon">
+            <v-icon>mdi-email</v-icon>
+          </v-list-item-icon>
+          <v-list-item-title class="list__title">Contact</v-list-item-title>
+        </v-list-item>
+      </v-list>
+      <v-divider></v-divider>
+      <v-list dense>
         <v-list-item @click="logout()">
           <v-list-item-icon class="list__icon">
             <v-icon>mdi-logout-variant</v-icon>
