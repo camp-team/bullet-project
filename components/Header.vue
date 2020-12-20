@@ -21,27 +21,25 @@
       </template>
       <v-list>
         <v-list-item v-if="user">
-          <v-list-item-title class="list__title"
-            >{{ user.displayName }} さん</v-list-item-title
-          >
+          <v-list-item-title>{{ user.displayName }} さん</v-list-item-title>
         </v-list-item>
       </v-list>
       <v-divider></v-divider>
       <v-list dense>
         <v-list-item href="https://forms.gle/sGa1N9Ruziub3nGu7" target="_blank">
-          <v-list-item-icon class="list__icon">
+          <v-list-item-icon class="mr-2">
             <v-icon>mdi-email</v-icon>
           </v-list-item-icon>
-          <v-list-item-title class="list__title">Contact</v-list-item-title>
+          <v-list-item-title>Contact</v-list-item-title>
         </v-list-item>
       </v-list>
       <v-divider></v-divider>
       <v-list dense>
         <v-list-item @click="logout()">
-          <v-list-item-icon class="list__icon">
+          <v-list-item-icon class="mr-2">
             <v-icon>mdi-logout-variant</v-icon>
           </v-list-item-icon>
-          <v-list-item-title class="list__title">Logout</v-list-item-title>
+          <v-list-item-title>Logout</v-list-item-title>
         </v-list-item>
       </v-list>
     </v-menu>
