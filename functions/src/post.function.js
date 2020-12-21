@@ -25,3 +25,17 @@ exports.createPost = functions
     item.objectID = item.postId
     return index.saveObject(item)
   })
+
+exports.deletePost = functions
+  .region('asia-northeast1')
+  .firestore.document('posts/{id}')
+  .onDelete((snap) => {
+    const data = snap.data()
+
+    if (data) {
+      const index = client.initIndex('posts_dev')
+      return index.deleteObject(data.postId)
+    } else {
+      return false
+    }
+  })
