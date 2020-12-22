@@ -15,7 +15,11 @@
           }}</v-list-item-title>
         </v-list-item-content>
         <v-row
-          v-if="this.$route.name === 'index' && user.uid === post.authorId"
+          v-if="
+            this.$route.name === 'index' &&
+            user != null &&
+            user.uid === post.authorId
+          "
           align="center"
           justify="end"
           class="mr-0"
