@@ -41,6 +41,9 @@
           </v-list-item-icon>
           <v-list-item-title>Logout</v-list-item-title>
         </v-list-item>
+        <v-list-item to="/leave">
+          <v-list-item-title>退会</v-list-item-title>
+        </v-list-item>
       </v-list>
     </v-menu>
     <CreateForm :authenticated="isAuthenticated" @set-message="formMessage" />
@@ -120,6 +123,7 @@ export default {
         .then(() => {
           this.message = 'ログアウトしました。'
           this.snackbar = true
+          this.$router.push({ path: '/' })
           this.$store.dispatch('auth/logout')
         })
     },
