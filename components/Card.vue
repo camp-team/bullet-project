@@ -37,42 +37,11 @@
               >
             </template>
             <v-list dense>
-              <v-list-item @click="openDialog">
+              <v-list-item
+                href="https://forms.gle/H2UDZmD5d71r2h8t9"
+                target="_blank"
+              >
                 <v-list-item-title>報告</v-list-item-title>
-                <v-dialog v-model="dialog" max-width="500">
-                  <v-card>
-                    <v-card-title class="headline">報告</v-card-title>
-                    <v-card-text>
-                      <form>
-                        <v-textarea
-                          v-model="content"
-                          counter
-                          :error-messages="contentErrors"
-                          label="詳細をお書きください"
-                          required
-                          @blur="$v.content.$touch()"
-                        ></v-textarea>
-                      </form>
-                    </v-card-text>
-                    <v-divider></v-divider>
-                    <v-card-actions>
-                      <v-spacer></v-spacer>
-                      <v-btn
-                        class="text-capitalize"
-                        depressed
-                        @click="dialog = false"
-                        >Cancel</v-btn
-                      >
-                      <v-btn
-                        color="#ff4081"
-                        class="white--text"
-                        depressed
-                        @click="submit(post.postId)"
-                        >送信</v-btn
-                      >
-                    </v-card-actions>
-                  </v-card>
-                </v-dialog>
               </v-list-item>
             </v-list>
           </v-menu>
