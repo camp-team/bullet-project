@@ -9,8 +9,8 @@ exports.sendMail = functions
   .region('asia-northeast1')
   .https.onCall(async (data, context) => {
     const msg = {
-      to: 'hontocha.prog@gmail.com',
-      from: 'hontocha.prog@gmail.com',
+      to: '',
+      from: '',
       templateId: 'd-5f041c47f53e4f8bbed195e381ed3fef',
       dynamic_template_data: {
         subject: data.subject,
