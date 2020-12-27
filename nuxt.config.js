@@ -44,6 +44,8 @@ export default {
     '@nuxtjs/pwa',
     '@nuxtjs/style-resources',
     '@nuxtjs/dotenv',
+    // https://github.com/nuxt-community/analytics-module
+    ['@nuxtjs/google-analytics', { id: 'UA-183488179-1' }],
   ],
 
   // Axios module configuration (https://go.nuxtjs.dev/config-axios)
