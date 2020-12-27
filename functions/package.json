@@ -13,6 +13,7 @@
   },
   "main": "index.js",
   "dependencies": {
+    "@sendgrid/mail": "^7.4.0",
     "algoliasearch": "^4.8.3",
     "firebase": "^8.1.1",
     "firebase-admin": "^8.10.0",
