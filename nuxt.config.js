@@ -3,7 +3,8 @@ import webpack from 'webpack'
 
 const title = 'from 8号車'
 const description = '8号車の、8号車による、8号車のためだけの投稿サイトです。'
-const ogImage = ''
+const url = 'https://bullet-dev-7b372.web.app'
+const ogImage = `${url}/assets/images/ogp.jpg`
 
 export default {
   // Global page headers (https://go.nuxtjs.dev/config-head)
@@ -15,7 +16,7 @@ export default {
       { hid: 'description', name: 'description', content: description },
       { hid: 'ogTitle', property: 'og:title', content: title },
       { hid: 'ogType', property: 'og:type', content: 'website' },
-      { hid: 'ogUrl', property: 'og:url', content: '' },
+      { hid: 'ogUrl', property: 'og:url', content: url },
       { hid: 'ogImage', property: 'og:image', content: ogImage },
       { property: 'og:site_name', content: title },
       {

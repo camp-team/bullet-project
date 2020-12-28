@@ -23,29 +23,41 @@
 
 <script>
 import Card from '~/components/Card'
-import headMeta from '~/mixins/headMeta.js'
 
 export default {
   components: {
     Card,
   },
-  mixins: [headMeta],
   asyncData({ params }) {
     const color = params.color
     return { color }
-  },
-  data() {
-    return {
-      meta: {
-        title: 'topic | from 8号車',
-        description: 'from 8号車の、topicページです。',
-      },
-    }
   },
   computed: {
     posts() {
       return this.$store.getters['post/filterByColor'](this.color)
     },
+  },
+  head() {
+    return {
+      title: `${this.color}の投稿一覧 | from 8号車`,
+      meta: [
+        {
+          hid: 'description',
+          name: 'descripton',
+          content: `from 8号車の、${this.color}の投稿一覧です。`,
+        },
+        {
+          hid: 'ogTitle',
+          name: 'og:title',
+          content: `${this.color}の投稿一覧 | from 8号車`,
+        },
+        {
+          hid: 'ogDescription',
+          name: 'og:descripton',
+          content: `from 8号車の、${this.color}の投稿一覧です。`,
+        },
+      ],
+    }
   },
 }
 </script>
