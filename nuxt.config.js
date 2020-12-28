@@ -1,15 +1,28 @@
 import colors from 'vuetify/es5/util/colors'
 import webpack from 'webpack'
 
+const title = 'from 8号車'
+const description = '8号車の、8号車による、8号車のためだけの投稿サイトです。'
+const ogImage = ''
+
 export default {
   // Global page headers (https://go.nuxtjs.dev/config-head)
   head: {
-    titleTemplate: '%s - bullet-project',
-    title: 'bullet-project',
+    title,
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { hid: 'description', name: 'description', content: '' },
+      { hid: 'description', name: 'description', content: description },
+      { hid: 'ogTitle', property: 'og:title', content: title },
+      { hid: 'ogType', property: 'og:type', content: 'website' },
+      { hid: 'ogUrl', property: 'og:url', content: '' },
+      { hid: 'ogImage', property: 'og:image', content: ogImage },
+      { property: 'og:site_name', content: title },
+      {
+        hid: 'ogDescription',
+        property: 'og:description',
+        content: description,
+      },
     ],
     link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
   },

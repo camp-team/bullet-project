@@ -23,14 +23,24 @@
 
 <script>
 import Card from '~/components/Card'
+import headMeta from '~/mixins/headMeta.js'
 
 export default {
   components: {
     Card,
   },
+  mixins: [headMeta],
   asyncData({ params }) {
     const color = params.color
     return { color }
+  },
+  data() {
+    return {
+      meta: {
+        title: 'topic | from 8号車',
+        description: 'from 8号車の、topicページです。',
+      },
+    }
   },
   computed: {
     posts() {

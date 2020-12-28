@@ -27,14 +27,20 @@
 <script>
 import SearchForm from '~/components/SearchForm'
 import Card from '~/components/Card'
+import headMeta from '~/mixins/headMeta.js'
 
 export default {
   components: {
     SearchForm,
     Card,
   },
+  mixins: [headMeta],
   data() {
     return {
+      meta: {
+        title: 'Search | from 8号車',
+        description: 'from 8号車の、検索ページです。',
+      },
       posts: [],
     }
   },
