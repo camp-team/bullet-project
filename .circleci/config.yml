@@ -24,7 +24,7 @@ jobs:
             - functions/node_modules
           key: v1-dependencies-{{ checksum "package.json" }}-{{ checksum "functions/package.json" }}
 
-      - run: npm run generate
+      - run: npm run build
 
       - run: ./node_modules/.bin/firebase deploy --project "$FIREBASE_PJ" --token "$FIREBASE_TOKEN"
 
