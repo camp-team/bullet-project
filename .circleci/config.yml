@@ -35,7 +35,7 @@ jobs:
     steps:
       - checkout
 
-      - run: node_modules/.bin/firebase deploy --project "$FIREBASE_PJ" --token "$FIREBASE_TOKEN"
+      - run: ./node_modules/.bin/firebase deploy --project "$FIREBASE_PJ" --token "$FIREBASE_TOKEN"
 
 workflows:
   version: 2
@@ -45,6 +45,3 @@ workflows:
       - deploy:
           requires:
             - build
-          filters:
-            branches:
-              only: develop
