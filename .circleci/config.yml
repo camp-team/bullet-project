@@ -9,6 +9,8 @@ jobs:
     steps:
       - checkout
 
+      - run: echo $ENV_FILE | base64 -decode > .env
+
       - restore_cache:
           keys:
             - v1-dependencies-{{ checksum "package.json" }}-{{ checksum "functions/package.json" }}
@@ -24,7 +26,7 @@ jobs:
             - functions/node_modules
           key: v1-dependencies-{{ checksum "package.json" }}-{{ checksum "functions/package.json" }}
 
-      - run: npm run build
+      - run: npm run generate
 
       - run: ./node_modules/.bin/firebase deploy --project "$FIREBASE_PJ" --token "$FIREBASE_TOKEN"
 
