@@ -1,19 +1,24 @@
 <template>
-  <v-app-bar class="header" color="#fff" flat fixed app>
-    <v-toolbar-title class="header__title" v-text="title" />
+  <v-app-bar class="my-header" flat fixed app>
+    <h1 class="text-h4 font-weight-bold">
+      <NuxtLink to="/" class="white--text text-decoration-none"
+        >from 8</NuxtLink
+      >
+    </h1>
     <v-spacer />
-    <v-btn icon to="/search"><v-icon>mdi-magnify</v-icon></v-btn>
+    <v-btn icon to="/search"><v-icon color="#fff">mdi-magnify</v-icon></v-btn>
     <v-btn
       v-if="!isAuthenticated"
       class="white--text"
-      color="#ff4081"
+      color="#fff"
       depressed
       @click="googleLogin()"
       >Sign in</v-btn
     >
-    <v-menu v-if="isAuthenticated" class="header__menu" offset-y>
+    <CreateForm :authenticated="isAuthenticated" @set-message="formMessage" />
+    <v-menu v-if="isAuthenticated" offset-y>
       <template v-slot:activator="{ on, attrs }">
-        <v-btn class="header__icon" icon v-bind="attrs" v-on="on"
+        <v-btn class="my-header__icon ml-2" icon v-bind="attrs" v-on="on"
           ><img v-if="user" :src="user.photoURL" alt="" /><v-icon v-else large
             >mdi-account-circle-outline</v-icon
           ></v-btn
@@ -46,7 +51,6 @@
         </v-list-item>
       </v-list>
     </v-menu>
-    <CreateForm :authenticated="isAuthenticated" @set-message="formMessage" />
     <v-snackbar v-model="snackbar" :timeout="timeout" color="#ff4081" outlined>
       {{ message }}
     </v-snackbar>
@@ -63,7 +67,6 @@ export default {
   },
   data() {
     return {
-      title: '8',
       snackbar: false,
       message: '',
       timeout: 5000,

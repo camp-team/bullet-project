@@ -1,6 +1,6 @@
 <template>
-  <div class="content">
-    <div class="container">
+  <div class="my-content">
+    <div class="container pt-6 pb-6">
       <v-card>
         <v-card-title class="text-h5 justify-center pt-10"
           >退会する</v-card-title

@@ -1,16 +1,12 @@
 <template>
-  <v-card class="card" :class="post.color | toClass" outlined>
-    <v-card-text class="card__body">
-      <span class="card__icon"><v-icon>mdi-train-variant</v-icon></span>
-      <p class="card__content mb-0">{{ post.content }}</p>
+  <v-card class="my-card" :class="post.color | toClass" outlined>
+    <v-card-text class="my-card__body">
+      <p class="my-card__content mb-0">{{ post.content }}</p>
     </v-card-text>
     <v-card-actions class="pt-0 pr-0 pl-0">
       <v-list-item dense class="grow">
-        <v-list-item-avatar size="24px" class="mt-0 mr-2 mb-0">
-          <v-img class="elevation-6" alt="" :src="post.author.photoURL"></v-img>
-        </v-list-item-avatar>
         <v-list-item-content>
-          <v-list-item-title class="card__name">{{
+          <v-list-item-title class="my-card__name">{{
             post.author.displayName
           }}</v-list-item-title>
         </v-list-item-content>
