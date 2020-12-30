@@ -18,9 +18,9 @@
         >
           <v-icon
             v-if="user != null && user.uid === post.authorId"
-            small
+            x-small
             @click="deletePost(post.postId)"
-            >mdi-trash-can-outline</v-icon
+            >fas fa-trash-alt</v-icon
           >
           <v-menu
             v-if="user != null && user.uid !== post.authorId"
@@ -29,7 +29,7 @@
           >
             <template v-slot:activator="{ on, attrs }">
               <v-btn icon v-bind="attrs" v-on="on"
-                ><v-icon>mdi-dots-horizontal</v-icon></v-btn
+                ><v-icon small>fas fa-ellipsis-h</v-icon></v-btn
               >
             </template>
             <v-list dense>

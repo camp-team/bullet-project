@@ -6,7 +6,9 @@
       >
     </h1>
     <v-spacer />
-    <v-btn icon to="/search"><v-icon color="#fff">mdi-magnify</v-icon></v-btn>
+    <v-btn icon to="/search"
+      ><v-icon color="#fff" small>fas fa-search</v-icon></v-btn
+    >
     <v-btn
       v-if="!isAuthenticated"
       class="white--text"
@@ -18,9 +20,9 @@
     <CreateForm :authenticated="isAuthenticated" @set-message="formMessage" />
     <v-menu v-if="isAuthenticated" offset-y>
       <template v-slot:activator="{ on, attrs }">
-        <v-btn class="my-header__icon ml-2" icon v-bind="attrs" v-on="on"
+        <v-btn class="my-header__icon ml-1" icon v-bind="attrs" v-on="on"
           ><img v-if="user" :src="user.photoURL" alt="" /><v-icon v-else large
-            >mdi-account-circle-outline</v-icon
+            >far fa-user-circle</v-icon
           ></v-btn
         >
       </template>
@@ -33,7 +35,7 @@
       <v-list dense>
         <v-list-item href="https://forms.gle/sGa1N9Ruziub3nGu7" target="_blank">
           <v-list-item-icon class="mr-2">
-            <v-icon>mdi-email</v-icon>
+            <v-icon small>far fa-envelope</v-icon>
           </v-list-item-icon>
           <v-list-item-title>Contact</v-list-item-title>
         </v-list-item>
@@ -42,7 +44,7 @@
       <v-list dense>
         <v-list-item @click="logout()">
           <v-list-item-icon class="mr-2">
-            <v-icon>mdi-logout-variant</v-icon>
+            <v-icon small>fas fa-sign-out-alt</v-icon>
           </v-list-item-icon>
           <v-list-item-title>Logout</v-list-item-title>
         </v-list-item>

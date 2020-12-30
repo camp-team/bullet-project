@@ -9,7 +9,7 @@
         v-bind="attrs"
         v-on="on"
       >
-        <v-icon>mdi-pencil</v-icon>
+        <v-icon small>fas fa-pen</v-icon>
       </v-btn>
     </template>
     <v-card>
