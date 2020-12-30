@@ -2,14 +2,14 @@
   <v-dialog v-if="authenticated" v-model="dialog" max-width="500">
     <template v-slot:activator="{ on, attrs }">
       <v-btn
-        class="white--text"
-        color="#ff4081"
+        class="pl-2 pr-2"
+        min-width="40px"
+        color="#fff"
         depressed
         v-bind="attrs"
         v-on="on"
       >
-        <v-icon left>mdi-pencil</v-icon>
-        投稿
+        <v-icon small>fas fa-pen</v-icon>
       </v-btn>
     </template>
     <v-card>

@@ -1,15 +1,29 @@
 import colors from 'vuetify/es5/util/colors'
 import webpack from 'webpack'
 
+const title = 'from 8号車'
+const description = '8号車の、8号車による、8号車のためだけの投稿サイトです。'
+const url = 'https://bullet-dev-7b372.web.app'
+const ogImage = `${url}/assets/images/ogp.jpg`
+
 export default {
   // Global page headers (https://go.nuxtjs.dev/config-head)
   head: {
-    titleTemplate: '%s - bullet-project',
-    title: 'bullet-project',
+    title,
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { hid: 'description', name: 'description', content: '' },
+      { hid: 'description', name: 'description', content: description },
+      { hid: 'ogTitle', property: 'og:title', content: title },
+      { hid: 'ogType', property: 'og:type', content: 'website' },
+      { hid: 'ogUrl', property: 'og:url', content: url },
+      { hid: 'ogImage', property: 'og:image', content: ogImage },
+      { property: 'og:site_name', content: title },
+      {
+        hid: 'ogDescription',
+        property: 'og:description',
+        content: description,
+      },
     ],
     link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
   },
@@ -44,6 +58,8 @@ export default {
     '@nuxtjs/pwa',
     '@nuxtjs/style-resources',
     '@nuxtjs/dotenv',
+    // https://github.com/nuxt-community/analytics-module
+    ['@nuxtjs/google-analytics', { id: 'UA-183488179-1' }],
   ],
 
   // Axios module configuration (https://go.nuxtjs.dev/config-axios)
@@ -52,6 +68,9 @@ export default {
   // Vuetify module configuration (https://go.nuxtjs.dev/config-vuetify)
   vuetify: {
     customVariables: ['~/assets/variables.scss'],
+    defaultAssets: {
+      icons: 'fa',
+    },
     theme: {
       light: true,
       themes: {
