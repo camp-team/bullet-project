@@ -1,6 +1,6 @@
 <template>
-  <div class="content">
-    <div class="container">
+  <div class="my-content">
+    <div class="container pt-6 pb-6">
       <v-card>
         <v-card-title class="text-h5 justify-center pt-10"
           >退会する</v-card-title
@@ -23,11 +23,17 @@
 
 <script>
 import firebase from '~/plugins/firebase'
+import headMeta from '~/mixins/headMeta.js'
 
 export default {
   middleware: 'authenticated',
+  mixins: [headMeta],
   data() {
     return {
+      meta: {
+        title: '退会 | from 8号車',
+        description: '退会ページです。',
+      },
       snackbar: false,
     }
   },

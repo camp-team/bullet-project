@@ -1,11 +1,11 @@
 <template>
-  <div class="content">
-    <div class="container">
+  <div class="my-content">
+    <div class="container pt-6 pb-6">
       <h1 class="page__title">
         <span>{{ color }}</span
         >の投稿一覧
       </h1>
-      <v-row v-masonry class="grid masonry-container" item-selector=".item">
+      <v-row v-masonry class="mt-8 masonry-container" item-selector=".item">
         <v-col
           v-for="(post, i) in posts"
           :key="i"
@@ -36,6 +36,28 @@ export default {
     posts() {
       return this.$store.getters['post/filterByColor'](this.color)
     },
+  },
+  head() {
+    return {
+      title: `${this.color}の投稿一覧 | from 8号車`,
+      meta: [
+        {
+          hid: 'description',
+          name: 'descripton',
+          content: `from 8号車の、${this.color}の投稿一覧です。`,
+        },
+        {
+          hid: 'ogTitle',
+          name: 'og:title',
+          content: `${this.color}の投稿一覧 | from 8号車`,
+        },
+        {
+          hid: 'ogDescription',
+          name: 'og:descripton',
+          content: `from 8号車の、${this.color}の投稿一覧です。`,
+        },
+      ],
+    }
   },
 }
 </script>

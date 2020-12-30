@@ -7,7 +7,7 @@
             v-model.trim="keyword"
             outlined
             label="search keyword"
-            prepend-inner-icon="mdi-magnify"
+            prepend-inner-icon="fas fa-search"
             hide-details="auto"
             @change="search()"
           ></v-text-field>
@@ -18,43 +18,43 @@
       <p class="chips__title">Color Topics</p>
       <div>
         <v-chip class="chips__item" color="rgba(0, 0, 0, 0.8)" to="/topic/black"
-          ><v-icon left>mdi-train-variant</v-icon>black</v-chip
+          ><v-icon left small>fas fa-train</v-icon>black</v-chip
         >
         <v-chip
           class="chips__item"
           color="rgba(66, 165, 245, 0.8)"
           to="/topic/blue"
-          ><v-icon left>mdi-train-variant</v-icon>blue</v-chip
+          ><v-icon left small>fas fa-train</v-icon>blue</v-chip
         >
         <v-chip
           class="chips__item"
           color="rgba(171, 71, 188, 0.8)"
           to="/topic/purple"
-          ><v-icon left>mdi-train-variant</v-icon>purple</v-chip
+          ><v-icon left small>fas fa-train</v-icon>purple</v-chip
         >
         <v-chip
           class="chips__item"
           color="rgba(102, 187, 106, 0.8)"
           to="/topic/green"
-          ><v-icon left>mdi-train-variant</v-icon>green</v-chip
+          ><v-icon left small>fas fa-train</v-icon>green</v-chip
         >
         <v-chip
           class="chips__item"
           color="rgba(239, 83, 80, 0.8)"
           to="/topic/red"
-          ><v-icon left>mdi-train-variant</v-icon>red</v-chip
+          ><v-icon left small>fas fa-train</v-icon>red</v-chip
         >
         <v-chip
           class="chips__item"
           color="rgba(255, 202, 40, 0.8)"
           to="/topic/yellow"
-          ><v-icon left>mdi-train-variant</v-icon>yellow</v-chip
+          ><v-icon left small>fas fa-train</v-icon>yellow</v-chip
         >
         <v-chip
           class="chips__item"
           color="rgba(189, 189, 189, 0.8)"
           to="/topic/white"
-          ><v-icon left>mdi-train-variant</v-icon>white</v-chip
+          ><v-icon left small>fas fa-train</v-icon>white</v-chip
         >
       </div>
     </div>
