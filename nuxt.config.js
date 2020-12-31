@@ -6,7 +6,7 @@ const { ALGOLIA_APP_ID, ALGOLIA_SEARCH_KEY } = process.env
 
 const title = 'from 8号車'
 const description = '8号車の、8号車による、8号車のためだけの投稿サイトです。'
-const url = 'https://bullet-dev-7b372.web.app'
+const url = 'https://bullet-prod-41d7f.web.app'
 const ogImage = `${url}/assets/images/ogp.jpg`
 
 export default {
