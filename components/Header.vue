@@ -9,7 +9,12 @@
     <v-btn icon to="/search"
       ><v-icon color="#fff" small>fas fa-search</v-icon></v-btn
     >
-    <v-btn v-if="!isAuthenticated" color="#fff" depressed @click="googleLogin()"
+    <v-btn
+      v-if="!isAuthenticated"
+      color="#fff"
+      depressed
+      class="text-lowercase"
+      @click="googleLogin()"
       >Sign in</v-btn
     >
     <CreateForm :authenticated="isAuthenticated" @set-message="formMessage" />
