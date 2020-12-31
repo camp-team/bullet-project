@@ -9,7 +9,7 @@ jobs:
     steps:
       - checkout
 
-      - run: echo $ENV_FILE | base64 --decode > .env.dev
+      - run: echo $ENV_DEV | base64 --decode > .env.dev
 
       - restore_cache:
           keys:

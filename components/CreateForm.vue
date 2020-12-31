@@ -107,6 +107,7 @@ export default {
         this.setPost()
         this.content = ''
         this.color = 'black'
+        this.$v.$reset()
         this.dialog = false
       }
     },
