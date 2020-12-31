@@ -7,7 +7,7 @@ const { ALGOLIA_APP_ID, ALGOLIA_SEARCH_KEY } = process.env
 const title = 'from 8号車'
 const description = '8号車の、8号車による、8号車のためだけの投稿サイトです。'
 const url = 'https://to-bullettrain.net'
-const ogImage = `${url}/ogp.jpg`
+const ogImage = '/ogp.jpg'
 
 export default {
   // Global page headers (https://go.nuxtjs.dev/config-head)
