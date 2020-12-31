@@ -20,11 +20,11 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
       - name: Create .env file
-        run: echo "${{ secrets.ENV_PROD }}" | base64 --decode > .env
+        run: echo "${{ secrets.ENV_PROD }}" | base64 --decode > .env.prod
       - name: Install
         run: npm install
       - name: Generate
-        run: npm run generate
+        run: npm run generate:prod
       - name: npm Install
         run: cd functions && npm install
       - name: Deploy to Firebase
