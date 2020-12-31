@@ -1,6 +1,9 @@
 import colors from 'vuetify/es5/util/colors'
 import webpack from 'webpack'
 
+require('dotenv').config()
+const { ALGOLIA_APP_ID, ALGOLIA_SEARCH_KEY } = process.env
+
 const title = 'from 8号車'
 const description = '8号車の、8号車による、8号車のためだけの投稿サイトです。'
 const url = 'https://bullet-dev-7b372.web.app'
@@ -57,7 +60,13 @@ export default {
     // https://go.nuxtjs.dev/pwa
     '@nuxtjs/pwa',
     '@nuxtjs/style-resources',
-    '@nuxtjs/dotenv',
+    [
+      '@nuxtjs/dotenv',
+      {
+        filename:
+          process.env.NODE_ENV !== 'production' ? './.env.dev' : './.env.prod',
+      },
+    ],
     // https://github.com/nuxt-community/analytics-module
     ['@nuxtjs/google-analytics', { id: 'UA-183488179-1' }],
   ],
@@ -97,4 +106,9 @@ export default {
   },
 
   target: 'static',
+
+  env: {
+    ALGOLIA_APP_ID,
+    ALGOLIA_SEARCH_KEY,
+  },
 }

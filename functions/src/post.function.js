@@ -19,7 +19,7 @@ exports.createPost = functions
   .firestore.document('posts/{id}')
   .onCreate((snap) => {
     const data = snap.data()
-    const index = client.initIndex('posts_dev')
+    const index = client.initIndex('posts')
     const item = transformDate(data)
 
     item.objectID = item.postId
@@ -33,7 +33,7 @@ exports.deletePost = functions
     const data = snap.data()
 
     if (data) {
-      const index = client.initIndex('posts_dev')
+      const index = client.initIndex('posts')
       return index.deleteObject(data.postId)
     } else {
       return false

@@ -64,9 +64,6 @@
 <script>
 import algoliasearch from 'algoliasearch/lite'
 
-const client = algoliasearch('2JJ6QFSYJE', '49d155a98ed7b52ce9b20cd157d0d133')
-const index = client.initIndex('posts_dev')
-
 export default {
   data() {
     return {
@@ -84,6 +81,11 @@ export default {
   },
   methods: {
     async search() {
+      const client = algoliasearch(
+        process.env.ALGOLIA_APP_ID,
+        process.env.ALGOLIA_SEARCH_KEY
+      )
+      const index = client.initIndex('posts')
       const searchedPosts = await index.search(this.keyword)
       const result = searchedPosts.hits.map((post) => {
         const postWithAuthor = {

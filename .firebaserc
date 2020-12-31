@@ -1,5 +1,6 @@
 {
   "projects": {
-    "default": "bullet-dev-7b372"
+    "default": "bullet-dev-7b372",
+    "prod": "bullet-prod-41d7f"
   }
 }
