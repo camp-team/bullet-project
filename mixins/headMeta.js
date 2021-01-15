@@ -4,7 +4,7 @@ export default {
     if (this.meta.title) {
       const title = this.meta.title
       head.title = title
-      head.meta.push({ hid: 'ogTitle', property: 'og:title', content: title })
+      head.meta.push({ hid: 'og:title', property: 'og:title', content: title })
     }
     if (this.meta.description) {
       const description = this.meta.description
@@ -14,7 +14,7 @@ export default {
         content: description,
       })
       head.meta.push({
-        hid: 'ogDescription',
+        hid: 'og:description',
         property: 'og:description',
         content: description,
       })
