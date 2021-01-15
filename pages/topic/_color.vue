@@ -47,12 +47,12 @@ export default {
           content: `from 8号車の、${this.color}の投稿一覧です。`,
         },
         {
-          hid: 'ogTitle',
+          hid: 'og:title',
           name: 'og:title',
           content: `${this.color}の投稿一覧 | from 8号車`,
         },
         {
-          hid: 'ogDescription',
+          hid: 'og:description',
           name: 'og:descripton',
           content: `from 8号車の、${this.color}の投稿一覧です。`,
         },

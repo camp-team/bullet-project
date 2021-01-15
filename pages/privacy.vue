@@ -120,3 +120,19 @@
     </div>
   </div>
 </template>
+
+<script>
+import headMeta from '~/mixins/headMeta.js'
+
+export default {
+  mixins: [headMeta],
+  data() {
+    return {
+      meta: {
+        title: 'プライバシーポリシー | from 8号車',
+        description: 'プライバシーポリシーページです。',
+      },
+    }
+  },
+}
+</script>

@@ -116,3 +116,19 @@
     </div>
   </div>
 </template>
+
+<script>
+import headMeta from '~/mixins/headMeta.js'
+
+export default {
+  mixins: [headMeta],
+  data() {
+    return {
+      meta: {
+        title: '利用規約 | from 8号車',
+        description: '利用規約ページです。',
+      },
+    }
+  },
+}
+</script>
