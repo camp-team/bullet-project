@@ -14,7 +14,7 @@
       color="#fff"
       depressed
       class="text-lowercase"
-      @click="googleLogin()"
+      @click="twitterLogin()"
       >Sign in</v-btn
     >
     <CreateForm :authenticated="isAuthenticated" @set-message="formMessage" />
@@ -83,10 +83,10 @@ export default {
     },
   },
   methods: {
-    googleLogin() {
+    twitterLogin() {
       firebase
         .auth()
-        .signInWithPopup(new firebase.auth.GoogleAuthProvider())
+        .signInWithPopup(new firebase.auth.TwitterAuthProvider())
         .then((result) => this.getAccountData(result))
         .then((userObject) => this.setUserData(userObject))
         .catch((error) => this.onRejected(error))
