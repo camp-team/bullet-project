@@ -1,14 +1,20 @@
 <template>
-  <v-card class="my-card" :class="post.color | toClass" outlined>
+  <v-card class="my-card rounded-lg" :class="post.color | toClass" outlined>
     <v-card-text class="my-card__body">
       <p class="my-card__content mb-0">{{ post.content }}</p>
     </v-card-text>
     <v-card-actions class="pt-0 pr-0 pl-0">
       <v-list-item dense class="grow">
-        <v-list-item-content>
-          <v-list-item-title class="my-card__name">{{
-            post.author.displayName
-          }}</v-list-item-title>
+        <v-list-item-avatar size="24px" class="mt-0 mr-2 mb-0">
+          <v-img class="elevation-6" alt="" :src="post.author.photoURL"></v-img>
+        </v-list-item-avatar>
+        <v-list-item-content class="py-0">
+          <v-list-item-title class="my-card__name">
+            {{ post.author.displayName }}
+          </v-list-item-title>
+          <time class="my-card__time">{{
+            $dateFns.format(post.createdAt.toDate(), 'yyyy/MM/dd')
+          }}</time>
         </v-list-item-content>
         <v-row
           v-if="this.$route.name === 'index'"
@@ -73,6 +79,11 @@ export default {
         }
       },
     },
+  },
+  asyncData({ $dateFns }) {
+    return {
+      dateFormatted: $dateFns.format(new Date()),
+    }
   },
   data() {
     return {

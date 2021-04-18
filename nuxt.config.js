@@ -70,6 +70,7 @@ export default {
     ],
     // https://github.com/nuxt-community/analytics-module
     ['@nuxtjs/google-analytics', { id: 'UA-183488179-1' }],
+    '@nuxtjs/date-fns',
   ],
 
   // Axios module configuration (https://go.nuxtjs.dev/config-axios)
