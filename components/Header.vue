@@ -33,15 +33,6 @@
       </v-list>
       <v-divider></v-divider>
       <v-list dense>
-        <v-list-item href="https://forms.gle/sGa1N9Ruziub3nGu7" target="_blank">
-          <v-list-item-icon class="mr-2">
-            <v-icon small>far fa-envelope</v-icon>
-          </v-list-item-icon>
-          <v-list-item-title>Contact</v-list-item-title>
-        </v-list-item>
-      </v-list>
-      <v-divider></v-divider>
-      <v-list dense>
         <v-list-item @click="logout()">
           <v-list-item-icon class="mr-2">
             <v-icon small>fas fa-sign-out-alt</v-icon>
