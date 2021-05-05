@@ -16,7 +16,7 @@
             cols="12"
             sm="4"
           >
-            <Card :post="post" />
+            <SearchCard :post="post" />
           </v-col>
         </v-row>
       </div>
@@ -26,13 +26,13 @@
 
 <script>
 import SearchForm from '~/components/SearchForm'
-import Card from '~/components/Card'
+import SearchCard from '~/components/SearchCard'
 import headMeta from '~/mixins/headMeta.js'
 
 export default {
   components: {
     SearchForm,
-    Card,
+    SearchCard,
   },
   mixins: [headMeta],
   data() {
