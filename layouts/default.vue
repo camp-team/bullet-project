@@ -14,6 +14,7 @@
         <v-btn
           text
           small
+          class="text-capitalize"
           href="https://forms.gle/sGa1N9Ruziub3nGu7"
           target="_blank"
           >Contact</v-btn
